@@ -1,0 +1,545 @@
+
+
+Command C:\Users\vielhaben\AppData\Local\conda\conda\envs\updateded\lib\site-packages\ipykernel_launcher.py -f C:\Users\vielhaben\AppData\Roaming\jupyter\runtime\kernel-f8d03dfd-d011-45e7-b790-6559210742b9.json
+started at 2019-07-23 14:27:48.321164
+Commit b'6cef7e7'
+
+Arguments:
+LM_PATH: lm_human_netchop_stochasticMinLen8
+bpe: False
+bpe_vocab_size: 100
+cluster_type: cdhit05
+exclude_aas: []
+existing_netchop_peptides: netchop_human_peptides_stochsticMinLen8.fasta
+ignore_clusters: True
+mask_idx: 1
+netchop_path: netchop
+nfolds: None
+pad_idx: 0
+pretrained_folder: 
+random_seed: 42
+randomize: False
+sampling_method_train: 1
+sampling_method_valtest: 3
+sampling_ratio: [0.9, 0.05, 0.05]
+sequence_len_max_aas: 0
+sequence_len_max_tokens: 0
+sequence_len_min_aas: 0
+working_folder: ./lm_human_netchop_stochasticMinLen8
+
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-23 14:58:09.290780
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 20]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: True
+lr: 0.001
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.05,0.05)
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-23 15:44:18.110772
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 20]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: True
+lr: 0.001
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.01,0.01)
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-23 16:19:44.672403
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 20]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: True
+lr: 0.001
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-24 09:30:20.185794
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 20]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: True
+lr: 0.007
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.07,0.07)
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-24 09:35:13.640840
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 20]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: False
+lr: 0.007
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.0010355029585798815,0.007)
+epoch,train_loss,valid_loss,accuracy,time
+0,2.652775,2.643709,0.192167,05:53
+1,2.640882,2.626562,0.197376,05:49
+2,2.624067,2.616915,0.200313,05:50
+3,2.618929,2.611459,0.202078,05:55
+4,2.618399,2.607201,0.202749,05:52
+5,2.613049,2.605249,0.203367,05:54
+6,2.612096,2.604676,0.203934,05:49
+7,2.617754,2.602742,0.204142,05:54
+8,2.612762,2.601565,0.204652,05:52
+9,2.610959,2.600961,0.204552,05:53
+10,2.612726,2.600539,0.204941,05:55
+11,2.613945,2.600209,0.205099,05:55
+12,2.614902,2.599399,0.204965,04:43
+13,2.615526,2.599224,0.205168,03:14
+14,2.612343,2.598976,0.205277,03:13
+15,2.606814,2.598430,0.205459,02:30
+16,2.609133,2.598048,0.205407,02:53
+17,2.609406,2.598055,0.205447,02:46
+18,2.610158,2.597879,0.205559,02:59
+19,2.609768,2.597835,0.205523,04:08
+
+validation result:2.5977554 0.2055668830871582
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-24 11:47:31.870088
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 30]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: False
+lr: 0.01
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.0014792899408284023,0.01)
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-24 11:54:04.804193
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 70
+bs: 128
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 30]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: False
+lr: 0.01
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_1l_01
+nh: 128
+nheads: 6
+nl: 1
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.0014792899408284023,0.01)
+epoch,train_loss,valid_loss,accuracy,time
+0,2.659993,2.643235,0.191781,06:06
+1,2.637748,2.627873,0.196375,06:12
+2,2.628493,2.619338,0.199620,06:09
+3,2.622701,2.613148,0.201317,06:10
+4,2.619277,2.608008,0.202380,06:11
+5,2.619037,2.606201,0.203311,06:07
+6,2.611290,2.604450,0.203636,06:08
+7,2.613612,2.603457,0.203908,06:14
+8,2.612830,2.602207,0.204418,07:46
+9,2.614228,2.601557,0.204485,08:03
+10,2.608482,2.601555,0.204384,08:07
+11,2.610983,2.601286,0.204700,07:59
+12,2.606401,2.600188,0.204901,08:43
+13,2.609249,2.600141,0.204918,08:10
+14,2.612425,2.599564,0.205080,08:24
+15,2.607044,2.599045,0.205253,08:44
+16,2.606939,2.599032,0.205292,08:11
+17,2.607892,2.598657,0.205534,08:14
+18,2.609713,2.598365,0.205450,08:35
+19,2.610318,2.598500,0.205578,08:10
+20,2.607175,2.597708,0.205604,08:14
+21,2.602258,2.597698,0.205642,08:12
+22,2.609697,2.597887,0.205525,08:19
+23,2.608993,2.597293,0.205713,08:04
+24,2.607558,2.597008,0.205942,08:03
+25,2.605847,2.596672,0.206015,08:05
+26,2.606517,2.596707,0.205771,08:36
+27,2.606346,2.596523,0.205881,08:50
+28,2.604984,2.596462,0.205935,08:11
+29,2.605152,2.596384,0.205948,08:08
+
+validation result:2.5965471 0.20602522790431976
+
+
+Command /home/fe/vielhaben/.conda/envs/fastai_conda/lib/python3.6/site-packages/ipykernel_launcher.py -f /run/user/11849105/jupyter/kernel-0b262d49-d7f3-49ee-999c-9c36053d99c9.json
+started at 2019-07-24 15:47:46.350685
+Commit b'937af8c'
+fastai version 1.0.52
+
+Arguments:
+annotation: False
+arch: AWD_LSTM
+backwards: False
+bptt: 20
+bs: 64
+clas: False
+clip: 0.25
+concat_train_val: False
+cv_fold: -1
+dropout: 0.5
+early_stopping: accuracy
+emb_sz: 50
+epochs: [1, 1, 2, 50]
+eval_on_test: False
+eval_on_val_test: False
+export_preds: False
+fit_one_cycle: True
+fp16: False
+from_scratch: True
+gradual_unfreezing: True
+interactive: False
+interactive_finegrained: False
+lr: 0.007
+lr_fixed: False
+lr_slice_exponent: 2.6
+lr_stage_factor: [2, 2, 5]
+max_len: 1024
+max_seq_len: 1024
+metrics: ['accuracy']
+model_filename_prefix: lm_3l_007
+nh: 128
+nheads: 6
+nl: 3
+pretrained_folder: ./lm_sprot
+pretrained_model_filename: model_3_enc
+regression: False
+tie_encoder: True
+train: True
+truncation_mode: 0
+wd: 1e-07
+working_folder: /data/local/1/vielhaben/lm_human_netchop_stochasticMinLen8
+
+stage 3 lr=slice(0.00015318091103252684,0.007)
+epoch,train_loss,valid_loss,accuracy,time
+0,2.628364,2.622927,0.197489,54:45
+1,2.639958,2.609244,0.202577,51:09
+2,2.611064,2.598584,0.205820,49:53
+3,2.608408,2.593067,0.207504,44:02
+4,2.597633,2.587712,0.209314,40:48
+5,2.594871,2.582128,0.211258,40:23
+6,2.588322,2.577345,0.212852,40:21
+7,2.587955,2.572951,0.214269,41:13
+8,2.581824,2.569409,0.215479,41:28
+9,2.576816,2.566209,0.216564,40:37
+10,2.583057,2.563714,0.217273,40:59
+11,2.576259,2.561414,0.218327,41:18
+12,2.574939,2.559913,0.218802,40:46
+13,2.575951,2.558393,0.219215,40:24
+14,2.571983,2.557606,0.219511,40:43
+15,2.574688,2.556497,0.219893,41:12
+16,2.568632,2.554720,0.220573,40:40
+17,2.570600,2.553998,0.220859,38:26
+18,2.572605,2.553197,0.221268,31:38
+19,2.568858,2.552269,0.221609,31:37
+20,2.571387,2.551658,0.221707,31:53
+21,2.567957,2.550748,0.222029,31:51
+22,2.573272,2.550395,0.222013,31:40
+23,2.571345,2.549814,0.222326,31:50
+24,2.573307,2.549086,0.222491,31:51
+25,2.564833,2.548060,0.222716,31:57
+26,2.563155,2.547976,0.222878,31:55
+27,2.564005,2.547420,0.222933,31:35
+28,2.567472,2.546860,0.223251,31:48
+29,2.559417,2.546141,0.223331,31:42
+30,2.564739,2.545934,0.223481,31:44
+31,2.562176,2.545454,0.223600,31:42
+32,2.565870,2.545160,0.223803,31:49
+33,2.562596,2.544480,0.223885,31:23
+34,2.565885,2.544229,0.224253,35:46
+35,2.568861,2.543788,0.224276,40:42
+36,2.557437,2.543436,0.224259,44:22
+37,2.560637,2.543065,0.224489,51:37
+38,2.566834,2.542884,0.224563,51:17
+39,2.555091,2.542555,0.224652,55:44
+40,2.553828,2.542297,0.224782,52:06
+41,2.562158,2.542175,0.224789,51:52
+42,2.565208,2.542021,0.224782,50:30
+43,2.562191,2.541798,0.224883,50:31
+44,2.562569,2.541736,0.224877,49:50
+45,2.564298,2.541651,0.224919,51:51
+46,2.564533,2.541538,0.224951,50:48
+47,2.563002,2.541503,0.224959,51:44
+48,2.562330,2.541479,0.224947,51:38
+49,2.563163,2.541464,0.224940,51:51
+
+validation result:2.5414352 0.22496077418327332
