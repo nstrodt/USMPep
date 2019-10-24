@@ -4,11 +4,19 @@ In our paper we report the excellent predictive performance of **USMPep** on sev
 
 For a detailed description of technical details and experimental results, please refer to our paper:
 
-[USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction](https://www.biorxiv.org/)
+[USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction](https://doi.org/10.1101/816546)
 
 Johanna Vielhaben, Markus Wenzel, Wojciech Samek, and Nils Strodthoff
 
-bioRxiv preprint 2019
+ 	@article{Vielhaben:2019USMPep,
+	author = {Vielhaben, Johanna and Wenzel, Markus and Samek, Wojciech and Strodthoff, Nils},
+	title = {USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction},
+	elocation-id = {816546},
+	year = {2019},
+	doi = {10.1101/816546},
+	publisher = {Cold Spring Harbor Laboratory},
+	journal = {bioRxiv}
+	}
 
 This is the accompanying code repository where we also provide a pretrained language model and predictions of our models on the test datasets discussed in our paper.
 
@@ -33,7 +41,7 @@ Either install the environment using the provided `proteomics.yml` by running `c
 Optionally (for support of threshold 0.4 clusters) install [cd-hit](`https://github.com/weizhongli/cdhit`) and add `cd-hit` to the default searchpath.
 
 ## Usage
-See the [UDSMPep User Guide](./code/USMPep_UserGuide.ipynb) for extensive usage information.
+See the [USMPep User Guide](./code/USMPep_UserGuide.ipynb) for extensive usage information.
 
 ## Binding Affinity Predictions
 We provide peptide binding affinity predictions for our tools, see `git-data`-folder and the corresponding [readme file](./git_data/README.md) for details.
