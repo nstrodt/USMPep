@@ -10,7 +10,7 @@ Johanna Vielhaben, Markus Wenzel, Wojciech Samek, and Nils Strodthoff
 
  	@article{Vielhaben:2019USMPep,
 	author = {Vielhaben, Johanna and Wenzel, Markus and Samek, Wojciech and Strodthoff, Nils},
-	title = {USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction},
+	title = {{USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Affinity Prediction}},
 	elocation-id = {816546},
 	year = {2019},
 	doi = {10.1101/816546},
