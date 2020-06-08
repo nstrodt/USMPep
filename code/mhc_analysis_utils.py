@@ -7,6 +7,9 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 from scipy.stats import kendalltau
 
+from proteomics_preprocessing import Preprocess
+from utils.proteomics_utils import  prepare_mhcii_iedb2009, prepare_mhcii_pcbi
+
 ##### Collect predictions during training #####
 def collect_preds_npz(data_dir, n_alleles, filename=None, 
                       subfoldername="allele", ensemble_i=None, preds_filename='preds_test.npz', 
@@ -134,6 +137,27 @@ def load_tokenized_sequences(allele_dir, allele):
             seq_concat += aa
         sequence[i] = seq_concat
     return pd.DataFrame({"sequence":sequence, "ID":test_IDs, "rank":allele})
+
+def load_ranking(dataset):
+    if dataset=="IEDB16_I":
+        prep = Preprocess()
+        _, ranking = prep.clas_mhc_i_zhao(mhc_select=None, working_folder=None,train_set="MHCFlurry18")
+    elif dataset=="Kim14":
+        kim_data_dir = Path("../data/benchmark_mhci_reliability/binding")
+        kim_train_raw = pd.read_csv(kim_data_dir/"bd2009.1"/"bdata.2009.mhci.public.1.cv_gs.txt", sep='\t')
+        kim_test_raw = pd.read_csv(kim_data_dir/"blind.1"/"bdata.2013.mhci.public.blind.1.txt", sep='\t')
+        ranking = kim_train_raw.groupby("mhc").size().sort_values(ascending=False).iloc[:53]
+        ranking = ranking.reset_index().reset_index().rename(columns={"index":"rank","mhc":"allele"}).drop(0,axis=1)
+    elif dataset=="IEDB16_II":
+        df_train = prepare_mhcii_iedb2009()
+        df_test = prepare_mhcii_pcbi()
+        # select only one train/test split out of the 5
+        df_train = df_train[df_train["cv_fold"]=="0"]
+        # select one allele based on training set size ranking
+        train_alleles_also_in_test_set = df_train["allele"][df_train["allele"].isin(df_test["allele"].unique())].unique()
+        ranking = df_train[df_train["allele"].isin(train_alleles_also_in_test_set)].groupby("allele").size().sort_values(ascending=False)
+        ranking = ranking.reset_index().reset_index().rename(columns={"index":"rank","mhc":"allele"}).drop(0,axis=1)
+    return ranking
     
  ##### Helper functions #####
 def allele_starformat_3(x):
@@ -414,4 +438,3 @@ def get_dataset_specs(which, n_alleles=53, prefix = "reg_mhc_kim_",data_dir = "r
                "number of alleles":df_seq["rank"].nunique(),
                "binder share":binder_share, 
                "binder share per rank":binder_share_by_rank}
-  
