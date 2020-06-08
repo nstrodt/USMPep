@@ -563,24 +563,25 @@ def generic_model(clas=True, **kwargs):
     if(kwargs["export_preds"] is True):
         filename_output = "preds_valid.npz" if kwargs["cv_fold"]==-1 else ("preds_valid_fold"+str(kwargs["cv_fold"])+".npz")
         print("Exporting predictions as ",filename_output)
-        val_clas_len = [len(x) for x in val_toks]
-        val_toks_sorted = sorted(range_of(val_toks), key=lambda t: val_clas_len[t])
-        val_IDs_sorted = [val_IDs[x] for x in val_toks_sorted]
+        #val_clas_len = [len(x) for x in val_toks]
+        #val_toks_sorted = sorted(range_of(val_toks), key=lambda t: val_clas_len[t], reverse=True)
+        #val_IDs_sorted = [val_IDs[x] for x in val_toks_sorted]
         #val_IDs_sorted_full = np.load(CLAS_FOLDER/'ID.npy')[val_IDs_sorted]
-        preds, targs = learn.get_preds(ds_type=DatasetType.Valid)
-        np.savez(WORKING_FOLDER/filename_output,IDs=val_IDs_sorted,preds=preds,targs=targs)
+
+        preds, targs = learn.get_preds(ds_type=DatasetType.Valid,ordered=True)
+        np.savez(WORKING_FOLDER/filename_output,IDs=val_IDs,preds=preds,targs=targs)
        
         if(kwargs["eval_on_val_test"] is True):
             filename_output = "preds_test.npz" if kwargs["cv_fold"]==-1 else ("preds_test_fold"+str(kwargs["cv_fold"])+".npz")
             print("Exporting predictions as ",filename_output)
             learn.data = data_clas_test
-            val_toks = tok[test_IDs] #use test ID s here
-            val_clas_len = [len(x) for x in val_toks]
-            val_toks_sorted = sorted(range_of(val_toks), key=lambda t: val_clas_len[t])
-            val_IDs_sorted = [test_IDs[x] for x in val_toks_sorted]
+            #val_toks = tok[test_IDs] #use test ID s here
+            #val_clas_len = [len(x) for x in val_toks]
+            #val_toks_sorted = sorted(range_of(val_toks), key=lambda t: val_clas_len[t], reverse=True)
+            #val_IDs_sorted = [test_IDs[x] for x in val_toks_sorted]
             
-            preds, targs = learn.get_preds(ds_type=DatasetType.Valid)
-            np.savez(WORKING_FOLDER/filename_output,IDs=val_IDs_sorted,preds=preds,targs=targs)
+            preds, targs = learn.get_preds(ds_type=DatasetType.Valid,ordered=True)
+            np.savez(WORKING_FOLDER/filename_output,IDs=val_IDs,preds=preds,targs=targs)
             
     
     if(kwargs["eval_on_val_test"]):
