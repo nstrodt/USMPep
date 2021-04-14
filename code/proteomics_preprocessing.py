@@ -511,7 +511,106 @@ class Preprocess(object):
         df = pd.concat([df, df_train], ignore_index=True,sort=True)
 
         self._preprocess_default(path=CLAS_PATH,pretrained_path=LM_PATH,df=df,df_cluster=df,sampling_method_train=-1,sampling_method_valtest=-1,regression=True,ignore_pretrained_clusters=True)
+    def clas_mhc_sars_cov(self, mhc_select, train_on, MS=False, working_folder="./clas_mhc_i_sars_cov",pretrained_folder="./lm_mhc"):
+        '''
+        Prepare test data from https://www.nature.com/articles/s41598-020-77466-4#MOESM1 - stability measurements of SARS-CoV-2 peptides
         
+        train_on: string, options "netmhcpan41", "netmhcpan4", "flurry"
+
+        Use MHCFlurry18 or NetMHCpan data as training set for MHC I and NetMHCpan dataset for MHC II
+        Optionally use MS data from NetMHCpan with MS set to True.
+        
+        mhc_select: string from ["1 A0101",
+                                "2 A0201",
+                                "3 A0301",
+                                "4 A1101",
+                                "5 A2402",
+                                "6 B4001",
+                                "7 C0401",
+                                "8 C0701",
+                                "9 C0702",
+                                "10 C0102",
+                                "11 DRB10401"]
+        working_folder: if None, returns dataframe
+        '''                    
+        CLAS_PATH = Path(working_folder) if working_folder is not None else None
+        LM_PATH=Path(pretrained_folder) if pretrained_folder!="" else None
+        
+        df = prepare_sars_cov(mhc_select, data_dir=data_path)
+        df["cluster_ID"] = 2 #mark everything as test
+        if MS:
+            df["label"] = df["label"] >= 60
+        
+        if mhc_select=="11 DRB10401":
+            # always use netmhc 3.2 data for training
+            df_train = prepare_mhcii_netmhcpan(mhc_select="DRB1_0401", MS=MS, data_dir=data_path, netmhc_data_version="3.2")
+        else:
+            # mapping between sheet titles in Covid19-Intavis-Immunitrack-datasetV2.xlsx corresponding to allele names 
+            # to allele names in MHCFlurry18 dataset
+            if train_on=="flurry":
+                allele_map = {"1 A0101": 'HLA-A*01:01',
+                        "2 A0201": 'HLA-A*02:01',
+                        "3 A0301": 'HLA-A*03:01',
+                        "4 A1101": 'HLA-A*11:01',
+                        "5 A2402": 'HLA-A*24:02',
+                        "6 B4001": 'HLA-B*40:01',
+                        "7 C0401": 'HLA-C*04:01',
+                        "8 C0701": 'HLA-C*07:01',
+                        "9 C0702": 'HLA-C*07:02' ,
+                        "10 C0102": 'HLA-C*01:02'}
+                df_train = generate_mhc_flurry(ms='noMS', mhc_select=allele_map[mhc_select], regression=True, transform_ic50="log", binder_threshold=500, filter_length=True, label_binary=False, data_dir=data_path)
+            else:
+                allele_map = {"1 A0101": 'HLA-A01:01',
+                        "2 A0201": 'HLA-A02:01',
+                        "3 A0301": 'HLA-A03:01',
+                        "4 A1101": 'HLA-A11:01',
+                        "5 A2402": 'HLA-A24:02',
+                        "6 B4001": 'HLA-B40:01',
+                        "7 C0401": 'HLA-C04:01',
+                        "8 C0701": 'HLA-C07:01',
+                        "9 C0702": 'HLA-C07:02' ,
+                        "10 C0102": 'HLA-C01:02'}
+                netmhc_version = "4.0" if train_on=="netmhcpan4" else "4.1"
+                df_train = prepare_mhci_netmhcpan_4(mhc_select=allele_map[mhc_select], MS=MS, data_dir=data_path, netmhc_data_version=netmhc_version)
+
+
+        df = pd.concat([df, df_train], ignore_index=True,sort=True)
+
+        if MS:
+            df["label"] = df["label"].astype(int)
+        
+        if working_folder is not None:
+            self._preprocess_default(path=CLAS_PATH,pretrained_path=LM_PATH,df=df,df_cluster=df,sampling_method_train=-1,sampling_method_valtest=-1,regression=False if MS else True,ignore_pretrained_clusters=True)
+        else:
+            return df
+
+    def clas_mhc_sars_cov_pan(self, mhc_class, working_folder="./clas_mhc_i_sars_cov_pan"):
+        
+        CLAS_PATH = Path(working_folder)
+
+        train = prepare_mhci_netmhcpan_4(None, with_MHC_seq=True, data_dir=data_path, netmhc_data_version="4.0")
+        test = prepare_sars_cov(None, mhc_class=mhc_class, with_MHC_seq=True, data_dir=data_path)
+        test["cluster_ID"] = 2
+
+        df = pd.concat([train,test], axis=0, sort=True, ignore_index=True)
+        
+        # concat MHC pseudo sequence and peptide sequence
+        df["sequence"] = df["sequence1"] + "x" + df["sequence"]  
+
+        prep = Preprocess()
+
+        # provide previous tokens so that "x" is mapped to '_pad_'
+        prev_tok = ['_pad_', '_mask_', '_bos_', 'G', 'E', 'S', 'P', 'A', 'D', 'T', 'V', 'L', 'R', 'N', 'I', 'Q', 'K', 'C', 'F', 'H', 'M', 'Y', 'W']
+
+        self._preprocess_default(path=CLAS_PATH,
+                                df=df,df_cluster=df,
+                                sampling_method_train=-1,sampling_method_valtest=-1,
+                                regression=True,ignore_pretrained_clusters=True,
+                                tok_itos_in=prev_tok)
+
+
+
+                    
     def clas_mhc_ii(self, mhc_select, working_folder="./clas_mhc_ii",pretrained_folder="./lm_mhc"):  
         '''
         Prepares IEDB16_II data from https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006457: of on allele.

@@ -9,6 +9,7 @@ from Bio import SeqIO
 
 
 from pathlib import Path
+import glob
 
 #console
 from tqdm import tqdm as tqdm
@@ -700,6 +701,74 @@ def _get_allele_ranking(data_dir='.'):
     mhc_rank = df.groupby('allele').size().sort_values(ascending=False).reset_index()['allele']
     
     return mhc_rank
+
+
+def netmhpan_4_0_special_allele_map(allele):
+    minus_idx = allele.find("-")
+    pre, post = allele[:minus_idx], allele[minus_idx+1:]
+
+    if pre=="Mamu":
+        special_map = {"A01": "A1*00101",
+         "A02": "A1*00201",
+         "A07": "A1*00701",
+         "A11": "A1*01101",
+         "A2201": "A1*02201",
+         "A2601": "A1*02601",
+
+         'A20102': "A2*00102", # "A2*0102" 
+
+         "A70103": "A7*00103", # "A7*0103"
+
+         "B01": "B*00101",
+         "B03": "B*00301",
+         "B04": "B*00401",
+         "B08": "B*00801",
+         "B17": "B*01701",
+         "B52": "B*05201",
+
+         "B1001": "B*01001",
+         'B3901': "B*03901", #?
+         'B6601': "B*06601", #?
+         'B8301': "B*08301", #? 
+         'B8701': "B*08701", #?
+        }
+        if post in special_map.keys():
+            post = special_map[post]
+    elif pre=="BoLA":
+        #source: select allele menu on http://www.cbs.dtu.dk/services/NetMHCpan-4.0/
+        special_map = {
+            "D18.4": "1:02301", 
+            "T2a": "2:01201",
+            "AW10": "3:00101",
+            "JSP.1": "3:00201",
+            "HD6": "6:01301",
+            "T2b": "6:04101"
+        }
+        if post in special_map.keys():
+            post = special_map[post]
+        
+    return pre + "-" + post
+
+def prepare_pseudo_mhc_sequences(mhc_class, data_dir='.'):
+    """
+    The pseudo sequences are provided with the NetMHCpan4.1/NetMHCIIpan4.0 data.
+    """
+    data_path = Path(data_dir)
+    if mhc_class=="II":
+        pseudo_seq_file = "NetMHCIIpan_train/pseudosequence.2016.all.X.dat" 
+    else:
+        pseudo_seq_file = "NetMHCpan_4_1_train/MHC_pseudo.dat"
+
+    pseudo_mhc = []
+    with open(data_path/pseudo_seq_file, "r") as f:
+        for line in f:
+            allele, seq = line.split()
+            pseudo_mhc.append((allele,seq))
+            
+    pseudo_mhc = pd.DataFrame(pseudo_mhc, columns=("allele",  "sequence1")) 
+    pseudo_mhc = pseudo_mhc[~pseudo_mhc["allele"].duplicated()]
+
+    return pseudo_mhc
     
 ########## Generate DataFrame ##########
 def generate_mhc_kim(cv_type=None, mhc_select=0, regression=False,  transform_ic50=None, to_csv=False, filename=None, data_dir='.', keep_all_alleles=False):
@@ -898,7 +967,191 @@ def prepare_hpv(mhc_select, data_dir='.'):
         
         return df[df["allele"]==mhc_select][["sequence","label"]]
         
+def prepare_sars_cov(mhc_select, mhc_class="I", with_MHC_seq=False, data_dir='.'): 
+        '''
+        To run, download https://www.immunitrack.com/wp/wp-content/uploads/Covid19-Intavis-Immunitrack-datasetV2.xlsx from
+    
+        [Prachar, M., Justesen, S., Steen-Jensen, D.B. et al. 
+        Identification and validation of 174 COVID-19 vaccine candidate epitopes reveals 
+        low performance of common epitope prediction tools. Sci Rep 10, 20465 (2020). 
+        https://doi.org/10.1038/s41598-020-77466-4]
         
+        and save in datadir
+        
+        mhc_select: string from ["1 A0101",
+                                "2 A0201",
+                                "3 A0301",
+                                "4 A1101",
+                                "5 A2402",
+                                "6 B4001",
+                                "7 C0401",
+                                "8 C0701",
+                                "9 C0702",
+                                "10 C0102",
+                                "11 DRB10401"]
+        '''
+        allele_sheets = ["1 A0101",
+                        "2 A0201",
+                        "3 A0301",
+                        "4 A1101",
+                        "5 A2402",
+                        "6 B4001",
+                        "7 C0401",
+                        "8 C0701",
+                        "9 C0702",
+                        "10 C0102",
+                        "11 DRB10401"]
+        data_path = Path(data_dir)
+        df = pd.read_excel(data_path/"Covid19-Intavis-Immunitrack-datasetV2.xlsx", sheet_name=allele_sheets)
+        df = pd.concat(df, sort=True)[["Sequence","Stab %"]]
+        df.rename(columns={"Sequence":"sequence","Stab %":"label"}, inplace=True)
+        
+        if mhc_select is not None:
+            df["allele"] = mhc_select
+            df = df.loc[mhc_select]
+            
+        if with_MHC_seq:
+            df = df.reset_index(level=0).rename(columns={"level_0":"allele"})
+            if mhc_class=="I":
+                covid_allele_map = {"1 A0101": 'HLA-A01:01',
+                        "2 A0201": 'HLA-A02:01',
+                        "3 A0301": 'HLA-A03:01',
+                        "4 A1101": 'HLA-A11:01',
+                        "5 A2402": 'HLA-A24:02',
+                        "6 B4001": 'HLA-B40:01',
+                        "7 C0401": 'HLA-C04:01',
+                        "8 C0701": 'HLA-C07:01',
+                        "9 C0702": 'HLA-C07:02'
+                    }
+            elif mhc_class=="II":
+                covid_allele_map = {"11 DRB10401": "DRB1_0401"
+                    }
+
+            df.allele = df.allele.map(covid_allele_map)
+            # filter out nan alleles (eg. class i (ii) alleles for class ii (i))
+            df = df[~df.allele.isnull()]
+            allele_df = prepare_pseudo_mhc_sequences(mhc_class, data_dir)
+            df = df.merge(allele_df, on="allele", how="left")
+
+        return df
+
+def prepare_mhci_netmhcpan_4(mhc_select, MS=False, with_MHC_seq=False, data_dir="./", netmhc_data_version="4.0"):
+    """
+    Prepare training data of NetMHCpan4.0/NetMHCpan4.1 with test data from
+
+    Prachar, M., Justesen, S., Steen-Jensen, D.B. et al. 
+    Identification and validation of 174 COVID-19 vaccine candidate epitopes reveals low performance 
+    of common epitope prediction tools. 
+    Sci Rep 10, 20465 (2020). 
+    https://doi.org/10.1038/s41598-020-77466-4
+    
+    Download
+
+    - Train/Val Data Affinity measurements
+        - either NetMHCpan4.1 data:
+            http://www.cbs.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/NetMHCpan_train.tar.gz
+            unpack and rename as NetMHCpan_4_1_train
+        - or NetMhCpan4.0 data:
+            from http://www.cbs.dtu.dk/suppl/immunology/NetMHCpan-4.0/ download 0th CV split files f000_ba (train) and c000_ba (val, 20%)
+            store in data_dir/NetMHCpan_4_0_train
+    save everything in data_dir
+    """
+    
+    datatype = "ba" if not MS else "el"
+    data = []
+    if netmhc_data_version=="4.0":
+        for file in glob.glob(str(data_dir/"NetMHCpan_4_0_train/*000_{}".format(datatype))):
+            df = pd.read_csv(file, header=None, delimiter=" " if not MS else "\t", names=("sequence","label","allele","ic50"))
+            df["cluster_ID"] = 0 if file.split("/")[-1][0]=="f" else 1
+            data.append(df)
+    elif netmhc_data_version=="4.1":
+        for file in glob.glob(str(data_dir/"NetMHCpan_4_1_train/*_ba")):
+            df = pd.read_csv(file, header=None, delimiter=" ", names=("sequence","label","allele"))
+            # use one partition as validation set
+            df["cluster_ID"] = 1 if file.split("/")[-1]=="c004_ba" else 0
+            data.append(df)
+    
+    data = pd.concat(data, ignore_index=True, sort=True)
+    
+    if mhc_select is not None:
+        data = data[data["allele"]==mhc_select]
+
+    if with_MHC_seq:
+        if netmhc_data_version=="4.0":
+            # some BoLA and Mamu alleles in NetMhCpan4.0 have names that can't be mapped to ipd alleles names with simple rules
+            # map these to the convention of NetMhCpan4.1 first (these names can be mapped to ipd allele names)
+            data.allele = data.allele.apply(netmhpan_4_0_special_allele_map)
+        allele_df = prepare_pseudo_mhc_sequences("I", data_dir)
+        data = data.merge(allele_df, on="allele", how="left")
+
+    return data
+
+def prepare_mhcii_netmhcpan(mhc_select, MS=False, with_MHC_seq=False, data_dir="./", netmhc_data_version="3.2"):
+    """
+    Prepare training data of NetMHCIIpan3.2/NetMHCIIpan4.0 with test data from
+
+    Prachar, M., Justesen, S., Steen-Jensen, D.B. et al. 
+    Identification and validation of 174 COVID-19 vaccine candidate epitopes reveals low performance 
+    of common epitope prediction tools. 
+    Sci Rep 10, 20465 (2020). 
+    https://doi.org/10.1038/s41598-020-77466-4
+    
+    Download
+
+    - Train/Val Data Affinity measurements
+        - either NetMHCpan4.1 data:
+            http://www.cbs.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/NetMHCpan_train.tar.gz
+            unpack and rename as NetMHCpan_4_1_train
+        - or NetMhCpan4.0 data:
+            from http://www.cbs.dtu.dk/suppl/immunology/NetMHCpan-4.0/ download 0th CV split files f000_ba (train) and c000_ba (val, 20%)
+            store in data_dir/NetMHCpan_4_0_train
+
+    - MS measurement data:
+            Download http://www.cbs.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/NetMHCIIpan_train.tar.gz, unpack and rename as NetMHCIIpan_train
+
+    save everything in data_dir
+    """
+    
+    data = []
+
+    if MS:
+        for file in glob.glob(str(data_dir/"NetMHCIIpan_train/*_EL1.txt")):
+            df = pd.read_csv(file, header=None, delimiter="\t", names=("sequence","label","allele","context"))
+            # use one partition as validation set
+            df["cluster_ID"] = 1 if file.split("/")[-1]=="test_EL1.txt" else 0
+            data.append(df)
+
+    else:
+        if netmhc_data_version=="3.2":
+            for file in glob.glob(str(data_dir/"NetMHCIIpan_3_2_train/*1.txt")):
+                #print(file)
+                df = pd.read_csv(file, header=None, delimiter="\t", names=("sequence","label","allele"))
+                # use one partition as validation set
+                df["cluster_ID"] = 1 if file.split("/")[-1]=="test1.txt" else 0
+                data.append(df)
+        elif netmhc_data_version=="4.0":
+            for file in glob.glob(str(data_dir/"NetMHCIIpan_train/*_BA1.txt")):
+                df = pd.read_csv(file, header=None, delimiter="\t", names=("sequence","label","allele","context"))
+                # use one partition as validation set
+                df["cluster_ID"] = 1 if file.split("/")[-1]=="test_BA1.txt" else 0
+                data.append(df)
+    
+    data = pd.concat(data, ignore_index=True, sort=True)
+    
+    if mhc_select is not None:
+        if MS:
+            data = data[data["allele"].apply(lambda x: mhc_select in x)]
+        else:
+            data = data[data["allele"]==mhc_select]
+
+    if with_MHC_seq:
+        allele_df = prepare_pseudo_mhc_sequences("II", data_dir)
+        data = data.merge(allele_df, on="allele", how="left")
+
+    return data
+
+
+
 def prepare_mhcii_iedb2016(mhc_select, cv_fold, path_iedb="../data/iedb2016", path_jensen_csv="../data/jensen_et_al_2018_immunology_supplTabl3.csv"):
     '''prepares mhcii iedb 2016 dataset using train1 ... test5 from http://www.cbs.dtu.dk/suppl/immunology/NetMHCIIpan-3.2/'''
     def prepare_df(filename):
