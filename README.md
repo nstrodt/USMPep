@@ -4,21 +4,40 @@ In our paper we report the excellent predictive performance of **USMPep** on sev
 
 For a detailed description of technical details and experimental results, please refer to our paper:
 
-[USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction](https://doi.org/10.1101/816546)
+[USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Afﬁnity Prediction](https://doi.org/10.1186/s12859-020-03631-1)
 
 Johanna Vielhaben, Markus Wenzel, Wojciech Samek, and Nils Strodthoff
 
- 	@article{Vielhaben:2019USMPep,
+ 	@article{Vielhaben:2020USMPep,
 	author = {Vielhaben, Johanna and Wenzel, Markus and Samek, Wojciech and Strodthoff, Nils},
 	title = {{USMPep: Universal Sequence Models for Major Histocompatibility Complex Binding Affinity Prediction}},
-	elocation-id = {816546},
-	year = {2019},
-	doi = {10.1101/816546},
-	publisher = {Cold Spring Harbor Laboratory},
-	journal = {bioRxiv}
+	journal = {BMC Bioinformatics},
+	year = {2020},
+	month={Jul},
+	volume = {21},
+	number = {1},
+	pages={279},
+	issn={1471-2105},
+	doi = {10.1186/s12859-020-03631-1},
+	url= {https://doi.org/10.1186/s12859-020-03631-1}
 	}
 
 This is the accompanying code repository where we also provide a pretrained language model and predictions of our models on the test datasets discussed in our paper.
+
+We present an extended version of **USMPep**, that we evaluated on a recent SARS-CoV-2 dataset, in our paper:
+
+[Predicting the Binding of SARS-CoV-2 Peptides to the Major Histocompatibility Complex with Recurrent Neural Networks](https://arxiv.org/abs/2104.08237)
+
+Johanna Vielhaben, Markus Wenzel, Eva Weicken, Nils Strodthoff
+
+	@misc{Vielhaben:2021USMPep,
+	      title={Predicting the Binding of SARS-CoV-2 Peptides to the Major Histocompatibility Complex with Recurrent Neural Networks}, 
+	      author={Johanna Vielhaben and Markus Wenzel and Eva Weicken and Nils Strodthoff},
+	      year={2021},
+	      eprint={2104.08237},
+	      archivePrefix={arXiv},
+	      primaryClass={q-bio.QM}
+	}
 
 **USMPep** builds on the [UDSMProt](https://github.com/nstrodt/UDSMProt)-framework: [Universal Deep Sequence Models for Protein Classification](https://doi.org/10.1101/704874)
 ## Dependencies
@@ -42,6 +61,8 @@ Optionally (for support of threshold 0.4 clusters) install [cd-hit](`https://git
 
 ## Usage
 See the [USMPep User Guide](./code/USMPep_UserGuide.ipynb) for extensive usage information.
+
+A second [User Guide](./code/USMPep_SARS-CoV-2.ipynb) provides usage information for the extended version of **USMPep**.
 
 ## Binding Affinity Predictions
 We provide peptide binding affinity predictions for our tools, see `git-data`-folder and the corresponding [readme file](./git_data/README.md) for details.
